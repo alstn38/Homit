@@ -6,6 +6,14 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F199691D2DD0760400DD4B4D /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = F199691C2DD0760400DD4B4D /* ComposableArchitecture */; };
+		F19969272DD07FAB00DD4B4D /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = F19969262DD07FAB00DD4B4D /* KakaoSDKAuth */; };
+		F19969292DD07FAB00DD4B4D /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = F19969282DD07FAB00DD4B4D /* KakaoSDKCommon */; };
+		F199692B2DD07FAB00DD4B4D /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = F199692A2DD07FAB00DD4B4D /* KakaoSDKUser */; };
+		F19969EB2DD0C84500DD4B4D /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = F19969EA2DD0C84500DD4B4D /* Alamofire */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		F1C024362DCF26D10080DB12 /* Homit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Homit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +44,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F19969EB2DD0C84500DD4B4D /* Alamofire in Frameworks */,
+				F199692B2DD07FAB00DD4B4D /* KakaoSDKUser in Frameworks */,
+				F199691D2DD0760400DD4B4D /* ComposableArchitecture in Frameworks */,
+				F19969292DD07FAB00DD4B4D /* KakaoSDKCommon in Frameworks */,
+				F19969272DD07FAB00DD4B4D /* KakaoSDKAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +91,11 @@
 			);
 			name = Homit;
 			packageProductDependencies = (
+				F199691C2DD0760400DD4B4D /* ComposableArchitecture */,
+				F19969262DD07FAB00DD4B4D /* KakaoSDKAuth */,
+				F19969282DD07FAB00DD4B4D /* KakaoSDKCommon */,
+				F199692A2DD07FAB00DD4B4D /* KakaoSDKUser */,
+				F19969EA2DD0C84500DD4B4D /* Alamofire */,
 			);
 			productName = Homit;
 			productReference = F1C024362DCF26D10080DB12 /* Homit.app */;
@@ -107,6 +125,11 @@
 			);
 			mainGroup = F1C0242D2DCF26D00080DB12;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				F199691B2DD0760400DD4B4D /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+				F19969252DD07FAB00DD4B4D /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
+				F19969E92DD0C84500DD4B4D /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F1C024372DCF26D10080DB12 /* Products */;
 			projectDirPath = "";
@@ -275,6 +298,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -309,6 +333,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -349,6 +374,61 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F199691B2DD0760400DD4B4D /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.19.1;
+			};
+		};
+		F19969252DD07FAB00DD4B4D /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		F19969E92DD0C84500DD4B4D /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F199691C2DD0760400DD4B4D /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F199691B2DD0760400DD4B4D /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+		F19969262DD07FAB00DD4B4D /* KakaoSDKAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F19969252DD07FAB00DD4B4D /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKAuth;
+		};
+		F19969282DD07FAB00DD4B4D /* KakaoSDKCommon */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F19969252DD07FAB00DD4B4D /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKCommon;
+		};
+		F199692A2DD07FAB00DD4B4D /* KakaoSDKUser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F19969252DD07FAB00DD4B4D /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKUser;
+		};
+		F19969EA2DD0C84500DD4B4D /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F19969E92DD0C84500DD4B4D /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F1C0242E2DCF26D00080DB12 /* Project object */;
 }
