@@ -163,6 +163,8 @@
 /* Begin XCBuildConfiguration section */
 		F1C0243F2DCF26D20080DB12 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = F1C024382DCF26D10080DB12 /* Homit */;
+			baseConfigurationReferenceRelativePath = Resource/APIKey.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -227,6 +229,8 @@
 		};
 		F1C024402DCF26D20080DB12 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = F1C024382DCF26D10080DB12 /* Homit */;
+			baseConfigurationReferenceRelativePath = Resource/APIKey.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
