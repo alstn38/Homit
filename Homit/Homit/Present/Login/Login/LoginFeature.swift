@@ -7,14 +7,16 @@
 
 import ComposableArchitecture
 
-struct LoginFeature: Reducer {
+@Reducer
+struct LoginFeature {
     
-    struct State: Equatable {
+    @ObservableState
+    struct State {
         var path = StackState<Path.State>()
         var isLoading: Bool = false
     }
     
-    enum Action: Equatable {
+    enum Action {
         case path(StackActionOf<Path>)
         case appleLoginDidTap
         case kakaoLoginDidTap
@@ -24,35 +26,30 @@ struct LoginFeature: Reducer {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .path(let action):
+            case .path(.element(id: _, action: .emailLogin(.signUpButtonDidTap))):
+                state.path.append(.signUp(SignUpFeature.State()))
                 return .none
+                
+            case .path:
+                return .none
+                
             case .appleLoginDidTap:
                 return .none
+                
             case .kakaoLoginDidTap:
                 return .none
+                
             case .emailLoginDidTap:
                 state.path.append(.emailLogin(EmailLoginFeature.State()))
                 return .none
             }
         }
-        .forEach(\.path, action: /Action.path) {
-            Path()
-        }
+        .forEach(\.path, action: \.path)
     }
     
-    struct Path: Reducer {
-        enum State: Equatable {
-            case emailLogin(EmailLoginFeature.State)
-        }
-
-        enum Action: Equatable {
-            case emailLogin(EmailLoginFeature.Action)
-        }
-
-        var body: some ReducerOf<Self> {
-            Scope(state: /State.emailLogin, action: /Action.emailLogin) {
-                EmailLoginFeature()
-            }
-        }
+    @Reducer
+    enum Path {
+        case emailLogin(EmailLoginFeature)
+        case signUp(SignUpFeature)
     }
 }
