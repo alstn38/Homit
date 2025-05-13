@@ -11,19 +11,18 @@ import ComposableArchitecture
 
 struct LoginView: View {
     
-    let store: StoreOf<LoginFeature>
+    @Perception.Bindable
+    var store: StoreOf<LoginFeature>
     
     var body: some View {
-        NavigationStackStore(
-            store.scope(state: \.path, action: LoginFeature.Action.path)
-        ) {
-            WithViewStore(store, observe: { $0 }) { viewStore in
+        WithPerceptionTracking {
+            NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
                 VStack {
                     Spacer()
                     topView()
                     Spacer()
                     Spacer()
-                    buttonView(viewStore: viewStore)
+                    buttonView()
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background {
@@ -32,20 +31,20 @@ struct LoginView: View {
                         .ignoresSafeArea()
                         .scaledToFill()
                 }
-            }
-        } destination: { state in
-            switch state {
-            case .emailLogin:
-                CaseLet(
-                    /LoginFeature.Path.State.emailLogin,
-                     action: LoginFeature.Path.Action.emailLogin,
-                     then: EmailLoginView.init
-                )
+            } destination: { store in
+                WithPerceptionTracking {
+                    switch store.case {
+                    case .emailLogin(let store):
+                        EmailLoginView(store: store)
+                    case .signUp(let store):
+                        SignUpView(store: store)
+                    }
+                }
             }
         }
     }
     
-    func topView() -> some View {
+    private func topView() -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("집을 찾는 따뜻한 여정")
             Text("Homit")
@@ -57,14 +56,14 @@ struct LoginView: View {
         .padding(.top, 40)
     }
     
-    func buttonView(viewStore: ViewStoreOf<LoginFeature>) -> some View {
+    private func buttonView() -> some View {
         VStack(spacing: 16) {
             LoginButton(
                 iconImage: Image(systemName: "apple.logo"),
                 title: "Apple로 시작하기",
                 backgroundColor: .white
             ) {
-                viewStore.send(.appleLoginDidTap)
+                store.send(.appleLoginDidTap)
             }
             
             LoginButton(
@@ -72,7 +71,7 @@ struct LoginView: View {
                 title: "카카오로 시작하기",
                 backgroundColor: Color.yellow
             ) {
-                viewStore.send(.kakaoLoginDidTap)
+                store.send(.kakaoLoginDidTap)
             }
             
             LoginButton(
@@ -80,7 +79,7 @@ struct LoginView: View {
                 title: "이메일로 시작하기",
                 backgroundColor: Color.blue
             ) {
-                viewStore.send(.emailLoginDidTap)
+                store.send(.emailLoginDidTap)
             }
         }
         .padding(.horizontal, 24)
