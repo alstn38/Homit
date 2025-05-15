@@ -12,6 +12,7 @@
 		F19969292DD07FAB00DD4B4D /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = F19969282DD07FAB00DD4B4D /* KakaoSDKCommon */; };
 		F199692B2DD07FAB00DD4B4D /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = F199692A2DD07FAB00DD4B4D /* KakaoSDKUser */; };
 		F19969EB2DD0C84500DD4B4D /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = F19969EA2DD0C84500DD4B4D /* Alamofire */; };
+		F1996AC42DD377A900DD4B4D /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = F1996AC32DD377A900DD4B4D /* KeychainAccess */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 			files = (
 				F19969EB2DD0C84500DD4B4D /* Alamofire in Frameworks */,
 				F199692B2DD07FAB00DD4B4D /* KakaoSDKUser in Frameworks */,
+				F1996AC42DD377A900DD4B4D /* KeychainAccess in Frameworks */,
 				F199691D2DD0760400DD4B4D /* ComposableArchitecture in Frameworks */,
 				F19969292DD07FAB00DD4B4D /* KakaoSDKCommon in Frameworks */,
 				F19969272DD07FAB00DD4B4D /* KakaoSDKAuth in Frameworks */,
@@ -96,6 +98,7 @@
 				F19969282DD07FAB00DD4B4D /* KakaoSDKCommon */,
 				F199692A2DD07FAB00DD4B4D /* KakaoSDKUser */,
 				F19969EA2DD0C84500DD4B4D /* Alamofire */,
+				F1996AC32DD377A900DD4B4D /* KeychainAccess */,
 			);
 			productName = Homit;
 			productReference = F1C024362DCF26D10080DB12 /* Homit.app */;
@@ -129,6 +132,7 @@
 				F199691B2DD0760400DD4B4D /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 				F19969252DD07FAB00DD4B4D /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				F19969E92DD0C84500DD4B4D /* XCRemoteSwiftPackageReference "Alamofire" */,
+				F1996AC22DD377A900DD4B4D /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F1C024372DCF26D10080DB12 /* Products */;
@@ -404,6 +408,14 @@
 				minimumVersion = 5.10.2;
 			};
 		};
+		F1996AC22DD377A900DD4B4D /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess.git";
+			requirement = {
+				kind = exactVersion;
+				version = 4.2.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -431,6 +443,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F19969E92DD0C84500DD4B4D /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		F1996AC32DD377A900DD4B4D /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F1996AC22DD377A900DD4B4D /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
