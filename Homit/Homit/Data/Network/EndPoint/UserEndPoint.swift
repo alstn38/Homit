@@ -67,14 +67,16 @@ extension UserEndPoint {
         switch self {
         case .validation, .join, .emailLogin, .kakaoLogin, .appleLogin:
             return [
+                "accept": "application/json",
                 "Content-Type": "application/json",
-                "SesacKey": Secret.baseURLKey
+                "SeSACKey": Secret.baseURLKey
             ]
 
         case .profile:
             return [
+                "accept": "application/json",
                 "Content-Type": "application/json",
-                "SesacKey": Secret.baseURLKey,
+                "SeSACKey": Secret.baseURLKey,
                 "Authorization": "token" // TODO: 이후 추가
             ]
         }
@@ -118,7 +120,14 @@ extension UserEndPoint {
         
         do {
             var request = try URLRequest(url: url, method: method, headers: headers)
-            request = try URLEncoding.default.encode(request, with: parameters)
+            
+            switch method {
+            case .get:
+                request = try URLEncoding.default.encode(request, with: parameters)
+            default:
+                request = try JSONEncoding.default.encode(request, with: parameters)
+            }
+            
             return request
         } catch {
             throw ErrorType.parameterEncodingFailed
