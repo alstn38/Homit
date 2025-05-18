@@ -20,6 +20,7 @@ final class NetworkService {
         responseType: U.Type
     ) async throws -> U {
         let dataTask = AF.request(router)
+            .validate(statusCode: 200..<300)
             .serializingData()
 
         let response = await dataTask.response
