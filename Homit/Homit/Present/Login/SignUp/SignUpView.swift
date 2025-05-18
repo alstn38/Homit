@@ -37,6 +37,8 @@ struct SignUpView: View {
             .onTapGesture {
                 isTextFieldFocused = false
             }
+            .alert($store.scope(state: \.alert, action: \.alert))
+            .loadingOverlay(store.isLoading)
         }
     }
     

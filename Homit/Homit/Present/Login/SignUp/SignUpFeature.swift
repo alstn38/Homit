@@ -20,7 +20,9 @@ struct SignUpFeature {
         var confirmPassword: String = ""
         var nickName: String = ""
         var isLoading: Bool = false
-        var error: String? = nil
+        
+        @Presents
+        var alert: AlertState<Action.Alert>?
         
         var isValidButton: Bool {
             return !email.isEmpty && !password.isEmpty
@@ -28,11 +30,19 @@ struct SignUpFeature {
         }
     }
     
-    enum Action: BindableAction {
+    enum Action: BindableAction, Equatable {
         case binding(BindingAction<State>)
         case signUpButtonDidTap
+        
         case signUpSuccess
-        case signUpFailure(Error)
+        case signUpFailure(String)
+        case alert(PresentationAction<Alert>)
+        
+        @CasePathable
+        enum Alert: Equatable {
+            case successAlertDismissed
+            case errorAlertDismissed
+        }
     }
     
     var body: some ReducerOf<Self> {
@@ -56,21 +66,55 @@ struct SignUpFeature {
                         )
                         await send(.signUpSuccess)
                     } catch {
-                        await send(.signUpFailure(error))
+                        await send(.signUpFailure(error.localizedDescription))
                     }
                 }
                 
             case .signUpSuccess:
                 state.isLoading = false
+                state.alert = AlertState(
+                    title: {
+                        TextState("회원가입에 성공했습니다.")
+                    },
+                    actions: {
+                        ButtonState(action: .successAlertDismissed) {
+                            TextState("확인")
+                        }
+                    }
+                )
+                
+                return .none
+                
+            case .signUpFailure(let errorMessage):
+                state.isLoading = false
+                state.alert = AlertState(
+                    title: {
+                        TextState("회원가입에 실패했습니다.")
+                    },
+                    actions: {
+                        ButtonState(role: .cancel, action: .errorAlertDismissed) {
+                            TextState("확인")
+                        }
+                    },
+                    message: {
+                        TextState(errorMessage)
+                    }
+                )
+                
+                return .none
+                
+            case .alert(.presented(.successAlertDismissed)):
                 return .run { _ in
                     await self.dismiss()
                 }
                 
-            case .signUpFailure(let error):
-                state.isLoading = false
-                state.error = error.localizedDescription
+            case .alert(.presented(.errorAlertDismissed)):
+                return .none
+                
+            case .alert(.dismiss):
                 return .none
             }
         }
+        .ifLet(\.$alert, action: \.alert)
     }
 }
