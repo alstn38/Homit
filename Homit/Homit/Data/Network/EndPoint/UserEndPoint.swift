@@ -15,7 +15,8 @@ enum UserEndPoint: Router {
     case emailLogin(email: String, password: String)
     case kakaoLogin(authToken: String)
     case appleLogin(idToken: String, nickName: String)
-    case profile
+    case profile(accessToken: String)
+    case deviceToken(deviceToken: String, accessToken: String)
 }
 
 extension UserEndPoint {
@@ -43,6 +44,8 @@ extension UserEndPoint {
             return "/v1/users/login/apple"
         case .profile:
             return "/v1/users/me/profile"
+        case .deviceToken:
+            return "/v1/users/deviceToken"
         }
     }
     
@@ -60,26 +63,23 @@ extension UserEndPoint {
             return .post
         case .profile:
             return .get
+        case .deviceToken:
+            return .put
         }
     }
     
     var headers: HTTPHeaders? {
-        switch self {
-        case .validation, .join, .emailLogin, .kakaoLogin, .appleLogin:
-            return [
-                "accept": "application/json",
-                "Content-Type": "application/json",
-                "SeSACKey": Secret.baseURLKey
-            ]
-
-        case .profile:
-            return [
-                "accept": "application/json",
-                "Content-Type": "application/json",
-                "SeSACKey": Secret.baseURLKey,
-                "Authorization": "token" // TODO: 이후 추가
-            ]
+        var headers: HTTPHeaders = [
+            "accept": "application/json",
+            "Content-Type": "application/json",
+            "SeSACKey": Secret.baseURLKey
+        ]
+        
+        if let accessToken = authorizationToken {
+            headers.add(name: "Authorization", value: accessToken)
         }
+
+        return headers
     }
     
     var parameters: Parameters? {
@@ -110,6 +110,10 @@ extension UserEndPoint {
             ]
         case .profile:
             return nil
+        case .deviceToken(let deviceToken, _):
+            return [
+                "deviceToken": deviceToken
+            ]
         }
     }
     
@@ -149,6 +153,17 @@ extension UserEndPoint {
             return .conflict(message: message)
         default:
             return .unknown
+        }
+    }
+    
+    private var authorizationToken: String? {
+        switch self {
+        case .profile(let accessToken):
+            return accessToken
+        case .deviceToken(_, let accessToken):
+            return accessToken
+        default:
+            return nil
         }
     }
 }
