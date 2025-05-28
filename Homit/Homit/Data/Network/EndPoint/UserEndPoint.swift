@@ -101,7 +101,7 @@ extension UserEndPoint {
             ]
         case .kakaoLogin(let authToken):
             return [
-                "authToken": authToken
+                "oauthToken": authToken
             ]
         case .appleLogin(let idToken, let nickName):
             return [
