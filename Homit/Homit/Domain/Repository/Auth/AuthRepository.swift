@@ -16,4 +16,7 @@ protocol AuthRepository {
     
     /// 이메일을 통한 로그인 메서드
     func loginWithEmail(email: String, password: String) async throws
+    
+    /// 애플을 통한 로그인 메서드
+    func loginWithApple(idToken: String, nickName: String) async throws
 }
