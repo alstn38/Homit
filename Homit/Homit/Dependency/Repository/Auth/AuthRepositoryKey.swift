@@ -12,7 +12,8 @@ import ComposableArchitecture
 private enum AuthRepositoryKey: DependencyKey {
     static var liveValue: AuthRepository {
         DefaultAuthRepository(
-            keychainTokenStorage: DependencyValues.live.keychainTokenStorage
+            keychainTokenStorage: DependencyValues.live.keychainTokenStorage,
+            kakaoLoginService: DependencyValues.live.kakaoLoginService
         )
     }
 }
