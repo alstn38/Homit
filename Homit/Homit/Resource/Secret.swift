@@ -22,4 +22,11 @@ enum Secret {
         }
         return urlString
     }()
+    
+    static let kakaoAppKey: String = {
+        guard let urlString = Bundle.main.infoDictionary?["KAKAO_APP_KEY"] as? String else {
+            fatalError("KAKAO_APP_KEY ERROR")
+        }
+        return urlString
+    }()
 }
