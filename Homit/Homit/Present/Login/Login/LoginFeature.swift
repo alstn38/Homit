@@ -11,7 +11,7 @@ import ComposableArchitecture
 @Reducer
 struct LoginFeature {
     
-    @Dependency(\.appleLoginUseCase) var appleLoginUseCase
+    @Dependency(\.authRepository) var authRepository
     
     @ObservableState
     struct State {
@@ -30,6 +30,9 @@ struct LoginFeature {
         
         case appleLoginSuccess
         case appleLoginFailure(String)
+        
+        case kakaoLoginSuccess
+        case kakaoLoginFailure(String)
         
         case alert(PresentationAction<Alert>)
         
@@ -54,7 +57,7 @@ struct LoginFeature {
                 
                 return .run { send in
                     do {
-                        try await appleLoginUseCase.execute(
+                        try await authRepository.loginWithApple(
                             idToken: idToken,
                             nickName: nickName
                         )
@@ -65,7 +68,16 @@ struct LoginFeature {
                 }
                 
             case .kakaoLoginDidTap:
-                return .none
+                state.isLoading = true
+                
+                return .run { send in
+                    do {
+                        try await authRepository.loginWithKakao()
+                        await send(.kakaoLoginSuccess)
+                    } catch {
+                        await send(.kakaoLoginFailure(error.localizedDescription))
+                    }
+                }
                 
             case .emailLoginDidTap:
                 state.path.append(.emailLogin(EmailLoginFeature.State()))
@@ -80,6 +92,27 @@ struct LoginFeature {
                 state.alert = AlertState(
                     title: {
                         TextState("애플 로그인 실패")
+                    },
+                    actions: {
+                        ButtonState(role: .cancel, action: .errorAlertDismissed) {
+                            TextState("확인")
+                        }
+                    },
+                    message: {
+                        TextState(errorMessage)
+                    }
+                )
+                return .none
+                
+            case .kakaoLoginSuccess:
+                state.isLoading = false
+                return .none
+                
+            case .kakaoLoginFailure(let errorMessage):
+                state.isLoading = false
+                state.alert = AlertState(
+                    title: {
+                        TextState("카카오 로그인 실패")
                     },
                     actions: {
                         ButtonState(role: .cancel, action: .errorAlertDismissed) {
