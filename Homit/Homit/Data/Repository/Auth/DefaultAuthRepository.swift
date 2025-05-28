@@ -51,6 +51,20 @@ final class DefaultAuthRepository: AuthRepository {
         try saveToken(from: response)
     }
     
+    func loginWithApple(idToken: String, nickName: String) async throws {
+        let router = UserEndPoint.appleLogin(
+            idToken: idToken,
+            nickName: nickName
+        )
+        
+        let response = try await NetworkService.shared.request(
+            router: router,
+            responseType: UserLoginDTO.self
+        )
+        
+        try saveToken(from: response)
+    }
+    
     private func saveToken(from dto: UserLoginDTO) throws {
         try keychainTokenStorage.save(
             accessToken: dto.accessToken,
