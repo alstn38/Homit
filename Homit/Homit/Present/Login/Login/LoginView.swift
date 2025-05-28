@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AuthenticationServices
 
 import ComposableArchitecture
 
@@ -41,6 +42,8 @@ struct LoginView: View {
                     }
                 }
             }
+            .loadingOverlay(store.isLoading)
+            .alert($store.scope(state: \.alert, action: \.alert))
         }
     }
     
@@ -58,13 +61,40 @@ struct LoginView: View {
     
     private func buttonView() -> some View {
         VStack(spacing: 16) {
-            LoginButton(
-                iconImage: Image(systemName: "apple.logo"),
-                title: "Apple로 시작하기",
-                backgroundColor: .white
-            ) {
-                store.send(.appleLoginDidTap)
-            }
+            SignInWithAppleButton(
+                onRequest: { request in
+                    request.requestedScopes = [.fullName, .email]
+                },
+                onCompletion: { result in
+                    switch result {
+                    case .success(let authResults):
+                        switch authResults.credential {
+                        case let appleIDCredential as ASAuthorizationAppleIDCredential:
+                            guard
+                                let identityTokenData = appleIDCredential.identityToken,
+                                let identityToken = String(data: identityTokenData, encoding: .utf8)
+                            else { return }
+                            
+                            /// 닉네임 추출
+                            let fullName = appleIDCredential.fullName
+                            let nickName = (fullName?.familyName ?? "") + (fullName?.givenName ?? "")
+                            let finalNickName = nickName.isEmpty
+                            ? "AppleUser_" + UUID().uuidString.prefix(8)
+                            : nickName
+                            
+                            store.send(.appleLogin(idToken: identityToken, nickName: finalNickName))
+                            
+                        default:
+                            break
+                        }
+                    case .failure(let error):
+                        print("Apple Login Error: \(error.localizedDescription)")
+                    }
+                }
+            )
+            .frame(height: 50)
+            .cornerRadius(12)
+            .signInWithAppleButtonStyle(.white)
             
             LoginButton(
                 iconImage: Image("kakaoLogo"),
