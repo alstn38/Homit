@@ -10,9 +10,14 @@ import Foundation
 final class DefaultAuthRepository: AuthRepository {
     
     private let keychainTokenStorage: KeychainTokenStorage
+    private let kakaoLoginService: KakaoLoginService
     
-    init(keychainTokenStorage: KeychainTokenStorage) {
+    init(
+        keychainTokenStorage: KeychainTokenStorage,
+        kakaoLoginService: KakaoLoginService
+    ) {
         self.keychainTokenStorage = keychainTokenStorage
+        self.kakaoLoginService = kakaoLoginService
     }
     
     func isAuthenticated() -> Bool {
@@ -56,6 +61,19 @@ final class DefaultAuthRepository: AuthRepository {
             idToken: idToken,
             nickName: nickName
         )
+        
+        let response = try await NetworkService.shared.request(
+            router: router,
+            responseType: UserLoginDTO.self
+        )
+        
+        try saveToken(from: response)
+    }
+    
+    func loginWithKakao() async throws {
+        let kakaoToken = try await kakaoLoginService.login()
+        
+        let router = UserEndPoint.kakaoLogin(authToken: kakaoToken)
         
         let response = try await NetworkService.shared.request(
             router: router,
