@@ -19,4 +19,7 @@ protocol AuthRepository {
     
     /// 애플을 통한 로그인 메서드
     func loginWithApple(idToken: String, nickName: String) async throws
+    
+    /// 카카오를 통한 로그인 메서드
+    func loginWithKakao() async throws
 }
