@@ -49,6 +49,9 @@ struct AppFeature {
             case .login(.appleLoginSuccess):
                 return .send(.loginSuccessful)
                 
+            case .login(.kakaoLoginSuccess):
+                return .send(.loginSuccessful)
+                
             case .splash, .login, .tabBar:
                 return .none
                 
