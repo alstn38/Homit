@@ -35,6 +35,8 @@ struct EmailLoginView: View {
             .onTapGesture {
                 isTextFieldFocused = false
             }
+            .loadingOverlay(store.isLoading)
+            .alert($store.scope(state: \.alert, action: \.alert))
         }
     }
     
