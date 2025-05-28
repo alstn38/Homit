@@ -23,6 +23,8 @@ struct AppFeature {
         case splash(SplashFeature.Action)
         case login(LoginFeature.Action)
         case tabBar(TabBarFeature.Action)
+        
+        case loginSuccessful
     }
     
     var body: some ReducerOf<Self> {
@@ -42,11 +44,17 @@ struct AppFeature {
                 return .none
                 
             case .login(.path(.element(id: _, action: .emailLogin(.loginSuccess)))):
-                state.tabBar = TabBarFeature.State()
-                state.login = nil
-                return .none
+                return .send(.loginSuccessful)
+                
+            case .login(.appleLoginSuccess):
+                return .send(.loginSuccessful)
                 
             case .splash, .login, .tabBar:
+                return .none
+                
+            case .loginSuccessful:
+                state.tabBar = TabBarFeature.State()
+                state.login = nil
                 return .none
             }
         }
