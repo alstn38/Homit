@@ -17,6 +17,7 @@ enum UserEndPoint: Router {
     case appleLogin(idToken: String, nickName: String)
     case profile(accessToken: String)
     case deviceToken(deviceToken: String, accessToken: String)
+    case refreshToken(refreshToken: String)
 }
 
 extension UserEndPoint {
@@ -46,6 +47,8 @@ extension UserEndPoint {
             return "/v1/users/me/profile"
         case .deviceToken:
             return "/v1/users/deviceToken"
+        case .refreshToken:
+            return "v1/auth/refresh"
         }
     }
     
@@ -65,6 +68,8 @@ extension UserEndPoint {
             return .get
         case .deviceToken:
             return .put
+        case .refreshToken:
+            return .get
         }
     }
     
@@ -75,8 +80,8 @@ extension UserEndPoint {
             "SeSACKey": Secret.baseURLKey
         ]
         
-        if let accessToken = authorizationToken {
-            headers.add(name: "Authorization", value: accessToken)
+        if case let .refreshToken(refreshToken) = self {
+            headers.add(name: "Authorization", value: refreshToken)
         }
 
         return headers
@@ -114,6 +119,8 @@ extension UserEndPoint {
             return [
                 "deviceToken": deviceToken
             ]
+        case .refreshToken:
+            return nil
         }
     }
     
@@ -153,17 +160,6 @@ extension UserEndPoint {
             return .conflict(message: message)
         default:
             return .unknown
-        }
-    }
-    
-    private var authorizationToken: String? {
-        switch self {
-        case .profile(let accessToken):
-            return accessToken
-        case .deviceToken(_, let accessToken):
-            return accessToken
-        default:
-            return nil
         }
     }
 }
