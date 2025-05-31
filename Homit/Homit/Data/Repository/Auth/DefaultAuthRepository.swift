@@ -11,13 +11,16 @@ final class DefaultAuthRepository: AuthRepository {
     
     private let keychainTokenStorage: KeychainTokenStorage
     private let kakaoLoginService: KakaoLoginService
+    private let authStateManager: AuthStateManager
     
     init(
         keychainTokenStorage: KeychainTokenStorage,
-        kakaoLoginService: KakaoLoginService
+        kakaoLoginService: KakaoLoginService,
+        authStateManager: AuthStateManager = AuthStateManager.shared
     ) {
         self.keychainTokenStorage = keychainTokenStorage
         self.kakaoLoginService = kakaoLoginService
+        self.authStateManager = authStateManager
     }
     
     func isAuthenticated() -> Bool {
@@ -54,6 +57,7 @@ final class DefaultAuthRepository: AuthRepository {
         )
         
         try saveToken(from: response)
+        authStateManager.updateAuthState(.authenticated)
     }
     
     func loginWithApple(idToken: String, nickName: String) async throws {
@@ -68,6 +72,7 @@ final class DefaultAuthRepository: AuthRepository {
         )
         
         try saveToken(from: response)
+        authStateManager.updateAuthState(.authenticated)
     }
     
     func loginWithKakao() async throws {
@@ -81,6 +86,12 @@ final class DefaultAuthRepository: AuthRepository {
         )
         
         try saveToken(from: response)
+        authStateManager.updateAuthState(.authenticated)
+    }
+    
+    func logout() throws {
+        try keychainTokenStorage.clear()
+        authStateManager.updateAuthState(.unauthenticated)
     }
     
     private func saveToken(from dto: UserLoginDTO) throws {
