@@ -24,5 +24,8 @@ struct RootView: View {
                 SplashView(store: store.scope(state: \.splash, action: \.splash))
             }
         }
+        .onAppear {
+            store.send(.onAppear)
+        }
     }
 }
