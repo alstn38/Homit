@@ -22,4 +22,7 @@ protocol AuthRepository {
     
     /// 카카오를 통한 로그인 메서드
     func loginWithKakao() async throws
+    
+    /// 로그아웃 메서드
+    func logout() throws
 }
