@@ -14,11 +14,11 @@ struct SplashFeature {
     
     @Dependency(\.authRepository) var authRepository
     @Dependency(\.userRepository) var userRepository
+    @Dependency(\.authStateManager) var authStateManager
     @Dependency(\.continuousClock) var clock
     
     @ObservableState
     struct State: Equatable {
-        var authState: AuthState = .unauthenticated
         var isLoading: Bool = true
         var error: String? = nil
     }
@@ -54,7 +54,7 @@ struct SplashFeature {
                 }
                 
             case .authStateResult(let authState):
-                state.authState = authState
+                authStateManager.updateAuthState(.authenticated)
                 
                 /// 인증된 상태라면 디바이스 토큰 등록 시도
                 if authState == .authenticated {
@@ -76,22 +76,15 @@ struct SplashFeature {
                 
             case .successDeviceTokenRegistration:
                 state.isLoading = false
-                state.authState = .authenticated
                 return .send(.proceedToNextScreen)
                 
             case .failDeviceTokenRegistration:
                 state.isLoading = false
-                state.authState = .unauthenticated
                 return .send(.proceedToNextScreen)
                 
             case .proceedToNextScreen:
                 return .none
             }
         }
-    }
-    
-    enum AuthState {
-        case authenticated
-        case unauthenticated
     }
 }
