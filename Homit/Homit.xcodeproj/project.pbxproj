@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F17DD9B62DEC1AB400CE3E17 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F17DD9B52DEC1AB400CE3E17 /* RealmSwift */; };
 		F199691D2DD0760400DD4B4D /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = F199691C2DD0760400DD4B4D /* ComposableArchitecture */; };
 		F19969272DD07FAB00DD4B4D /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = F19969262DD07FAB00DD4B4D /* KakaoSDKAuth */; };
 		F19969292DD07FAB00DD4B4D /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = F19969282DD07FAB00DD4B4D /* KakaoSDKCommon */; };
@@ -47,6 +48,7 @@
 			files = (
 				F19969EB2DD0C84500DD4B4D /* Alamofire in Frameworks */,
 				F199692B2DD07FAB00DD4B4D /* KakaoSDKUser in Frameworks */,
+				F17DD9B62DEC1AB400CE3E17 /* RealmSwift in Frameworks */,
 				F1996AC42DD377A900DD4B4D /* KeychainAccess in Frameworks */,
 				F199691D2DD0760400DD4B4D /* ComposableArchitecture in Frameworks */,
 				F19969292DD07FAB00DD4B4D /* KakaoSDKCommon in Frameworks */,
@@ -99,6 +101,7 @@
 				F199692A2DD07FAB00DD4B4D /* KakaoSDKUser */,
 				F19969EA2DD0C84500DD4B4D /* Alamofire */,
 				F1996AC32DD377A900DD4B4D /* KeychainAccess */,
+				F17DD9B52DEC1AB400CE3E17 /* RealmSwift */,
 			);
 			productName = Homit;
 			productReference = F1C024362DCF26D10080DB12 /* Homit.app */;
@@ -133,6 +136,7 @@
 				F19969252DD07FAB00DD4B4D /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				F19969E92DD0C84500DD4B4D /* XCRemoteSwiftPackageReference "Alamofire" */,
 				F1996AC22DD377A900DD4B4D /* XCRemoteSwiftPackageReference "KeychainAccess" */,
+				F17DD9B42DEC1AB300CE3E17 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F1C024372DCF26D10080DB12 /* Products */;
@@ -390,6 +394,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		F17DD9B42DEC1AB300CE3E17 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = exactVersion;
+				version = 20.0.2;
+			};
+		};
 		F199691B2DD0760400DD4B4D /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture.git";
@@ -425,6 +437,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		F17DD9B52DEC1AB400CE3E17 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F17DD9B42DEC1AB300CE3E17 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
 		F199691C2DD0760400DD4B4D /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F199691B2DD0760400DD4B4D /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
