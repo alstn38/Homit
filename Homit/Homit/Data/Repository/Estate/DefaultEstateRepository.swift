@@ -68,52 +68,37 @@ final class DefaultEstateRepository: EstateRepository {
     }
     
     private func convertToEstateEntities(from dtos: [EstateDTO]) async throws -> [EstateEntity] {
-        return try await withThrowingTaskGroup(of: EstateEntity.self) { group in
-            for dto in dtos {
-                group.addTask { [weak self] in
-                    guard let self else {
-                        throw EstateRepositoryError.serviceUnavailable
-                    }
-                    
-                    let location = CLLocation(
-                        latitude: dto.geolocation.latitude,
-                        longitude: dto.geolocation.longitude
-                    )
-                    
-                    let locationEntity = try await self.geocoderService.reverseGeocode(location: location)
-                    let thumbnailURLs = dto.thumbnails.compactMap { URL(string: $0) }
-                    
-                    return EstateEntity(
-                        id: dto.estateId,
-                        category: dto.category,
-                        title: dto.title,
-                        introduction: dto.introduction,
-                        thumbnailURL: thumbnailURLs,
-                        deposit: dto.deposit,
-                        monthlyRent: dto.monthlyRent,
-                        area: dto.area,
-                        latitude: dto.geolocation.latitude,
-                        longitude: dto.geolocation.longitude,
-                        locationEntity: locationEntity,
-                        isSafeEstate: dto.isSafeEstate,
-                        isRecommended: dto.isRecommended
-                    )
-                }
-            }
+        var entities: [EstateEntity] = []
+        
+        for dto in dtos {
+            let location = CLLocation(
+                latitude: dto.geolocation.latitude,
+                longitude: dto.geolocation.longitude
+            )
             
-            /// 모든 결과를 수집하고 원래 순서대로 정렬
-            var entities: [EstateEntity] = []
-            for try await entity in group {
-                entities.append(entity)
-            }
+            let locationEntity = try await geocoderService.reverseGeocode(location: location)
+            let thumbnailURLs = dto.thumbnails.compactMap { URL(string: $0) }
             
-            /// DTO의 원래 순서와 맞추기 위해 ID로 정렬
-            return entities.sorted { entity1, entity2 in
-                let index1 = dtos.firstIndex { $0.estateId == entity1.id } ?? 0
-                let index2 = dtos.firstIndex { $0.estateId == entity2.id } ?? 0
-                return index1 < index2
-            }
+            let entity = EstateEntity(
+                id: dto.estateId,
+                category: dto.category,
+                title: dto.title,
+                introduction: dto.introduction,
+                thumbnailURL: thumbnailURLs,
+                deposit: dto.deposit,
+                monthlyRent: dto.monthlyRent,
+                area: dto.area,
+                latitude: dto.geolocation.latitude,
+                longitude: dto.geolocation.longitude,
+                locationEntity: locationEntity,
+                isSafeEstate: dto.isSafeEstate,
+                isRecommended: dto.isRecommended
+            )
+            
+            entities.append(entity)
         }
+        
+        return entities
     }
     
     private enum EstateRepositoryError: LocalizedError {
