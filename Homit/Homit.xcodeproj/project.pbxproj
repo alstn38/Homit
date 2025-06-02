@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		F17DD9B62DEC1AB400CE3E17 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F17DD9B52DEC1AB400CE3E17 /* RealmSwift */; };
+		F17DDB0A2DEC345300CE3E17 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = F17DDB092DEC345300CE3E17 /* Kingfisher */; };
+		F17DDB0B2DEC3BFB00CE3E17 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = F17DD9B52DEC1AB400CE3E17 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		F199691D2DD0760400DD4B4D /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = F199691C2DD0760400DD4B4D /* ComposableArchitecture */; };
 		F19969272DD07FAB00DD4B4D /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = F19969262DD07FAB00DD4B4D /* KakaoSDKAuth */; };
 		F19969292DD07FAB00DD4B4D /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = F19969282DD07FAB00DD4B4D /* KakaoSDKCommon */; };
@@ -15,6 +17,20 @@
 		F19969EB2DD0C84500DD4B4D /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = F19969EA2DD0C84500DD4B4D /* Alamofire */; };
 		F1996AC42DD377A900DD4B4D /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = F1996AC32DD377A900DD4B4D /* KeychainAccess */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F17DDB0C2DEC3BFB00CE3E17 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F17DDB0B2DEC3BFB00CE3E17 /* RealmSwift in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		F1C024362DCF26D10080DB12 /* Homit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Homit.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -50,6 +66,7 @@
 				F199692B2DD07FAB00DD4B4D /* KakaoSDKUser in Frameworks */,
 				F17DD9B62DEC1AB400CE3E17 /* RealmSwift in Frameworks */,
 				F1996AC42DD377A900DD4B4D /* KeychainAccess in Frameworks */,
+				F17DDB0A2DEC345300CE3E17 /* Kingfisher in Frameworks */,
 				F199691D2DD0760400DD4B4D /* ComposableArchitecture in Frameworks */,
 				F19969292DD07FAB00DD4B4D /* KakaoSDKCommon in Frameworks */,
 				F19969272DD07FAB00DD4B4D /* KakaoSDKAuth in Frameworks */,
@@ -85,6 +102,7 @@
 				F1C024322DCF26D00080DB12 /* Sources */,
 				F1C024332DCF26D00080DB12 /* Frameworks */,
 				F1C024342DCF26D00080DB12 /* Resources */,
+				F17DDB0C2DEC3BFB00CE3E17 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -102,6 +120,7 @@
 				F19969EA2DD0C84500DD4B4D /* Alamofire */,
 				F1996AC32DD377A900DD4B4D /* KeychainAccess */,
 				F17DD9B52DEC1AB400CE3E17 /* RealmSwift */,
+				F17DDB092DEC345300CE3E17 /* Kingfisher */,
 			);
 			productName = Homit;
 			productReference = F1C024362DCF26D10080DB12 /* Homit.app */;
@@ -137,6 +156,7 @@
 				F19969E92DD0C84500DD4B4D /* XCRemoteSwiftPackageReference "Alamofire" */,
 				F1996AC22DD377A900DD4B4D /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 				F17DD9B42DEC1AB300CE3E17 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				F17DDB082DEC345300CE3E17 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F1C024372DCF26D10080DB12 /* Products */;
@@ -402,6 +422,14 @@
 				version = 20.0.2;
 			};
 		};
+		F17DDB082DEC345300CE3E17 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.3.2;
+			};
+		};
 		F199691B2DD0760400DD4B4D /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture.git";
@@ -441,6 +469,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F17DD9B42DEC1AB300CE3E17 /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
+		};
+		F17DDB092DEC345300CE3E17 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F17DDB082DEC345300CE3E17 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 		F199691C2DD0760400DD4B4D /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
