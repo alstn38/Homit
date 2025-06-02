@@ -12,7 +12,8 @@ import ComposableArchitecture
 private enum EstateRepositoryKey: DependencyKey {
     static var liveValue: EstateRepository {
         DefaultEstateRepository(
-            geocoderService: DependencyValues.live.geocoderService
+            geocoderService: DependencyValues.live.geocoderService,
+            recentEstateStorageService: DependencyValues.live.recentEstateStorageService
         )
     }
 }
