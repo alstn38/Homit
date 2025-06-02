@@ -18,7 +18,14 @@ struct AppFeature {
     struct State {
         var splash = SplashFeature.State()
         var login: LoginFeature.State?
-        var tabBar: TabBarFeature.State?
+        var tabBar = TabBarFeature.State()
+        var currentScreen: CurrentScreen = .splash
+        
+        enum CurrentScreen {
+            case splash
+            case login
+            case tabBar
+        }
     }
     
     enum Action {
@@ -42,39 +49,40 @@ struct AppFeature {
             case .splash(.proceedToNextScreen):
                 switch authStateManager.authState {
                 case .authenticated:
-                    state.tabBar = TabBarFeature.State()
+                    state.currentScreen = .tabBar
                     state.login = nil
                     authStateManager.updateAuthState(.authenticated)
                     
                 case .unauthenticated:
+                    state.currentScreen = .login
                     state.login = LoginFeature.State()
-                    state.tabBar = nil
                     authStateManager.updateAuthState(.unauthenticated)
                 }
                 
                 return .none
                 
             case .authStateChanged(.authenticated):
-                state.tabBar = TabBarFeature.State()
+                state.currentScreen = .tabBar
                 state.login = nil
                 return .none
                 
             case .authStateChanged(.unauthenticated):
+                state.currentScreen = .login
                 state.login = LoginFeature.State()
-                state.tabBar = nil
                 return .none
                 
             case .splash, .login, .tabBar:
                 return .none
             }
         }
+        
         Scope(state: \.splash, action: \.splash) {
             SplashFeature()
         }
         .ifLet(\.login, action: \.login) {
             LoginFeature()
         }
-        .ifLet(\.tabBar, action: \.tabBar) {
+        Scope(state: \.tabBar, action: \.tabBar) {
             TabBarFeature()
         }
     }
