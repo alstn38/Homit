@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TopicEntity {
+struct TopicEntity: Equatable {
     let title: String    /// 제목
     let content: String  /// 내용
     let date: String     /// 날짜 (ex: "25. 4. 4")
