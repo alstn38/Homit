@@ -49,6 +49,15 @@ struct TabBarFeature {
                 return .none
             }
         }
+        Scope(state: \.homeState, action: \.home) {
+            HomeFeature()
+        }
+        Scope(state: \.favoriteState, action: \.favorite) {
+            FavoriteFeature()
+        }
+        Scope(state: \.settingState, action: \.setting) {
+            SettingFeature()
+        }
     }
     
     enum Tab: Hashable {
