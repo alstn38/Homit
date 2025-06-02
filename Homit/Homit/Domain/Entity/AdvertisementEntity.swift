@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AdvertisementEntity {
+struct AdvertisementEntity: Equatable {
     let title: String      /// 광고 제목
     let content: String    /// 광고 내용
 }
