@@ -16,27 +16,25 @@ final class DefaultGeocoderService: GeocoderService {
     private let geocoder = CLGeocoder()
     
     func reverseGeocode(location: CLLocation) async throws -> LocationEntity {
-        return try await withCheckedThrowingContinuation { continuation in
-            geocoder.reverseGeocodeLocation(location) { placemarks, error in
-                if let error = error {
-                    continuation.resume(throwing: GeocoderError.reverseGeocodingFailed(error.localizedDescription))
-                    return
-                }
-                
-                guard let placemark = placemarks?.first else {
-                    continuation.resume(throwing: GeocoderError.noPlacemarkFound)
-                    return
-                }
-                
-                let cityName = placemark.administrativeArea ?? ""
-                let townName = placemark.subLocality ?? placemark.locality ?? ""
-                
-                let locationEntity = LocationEntity(
-                    cityName: cityName,
-                    townName: townName
-                )
-                
-                continuation.resume(returning: locationEntity)
+        do {
+            let placemarks = try await geocoder.reverseGeocodeLocation(location)
+            
+            guard let placemark = placemarks.first else {
+                throw GeocoderError.noPlacemarkFound
+            }
+            
+            let cityName = placemark.administrativeArea ?? ""
+            let townName = placemark.subLocality ?? placemark.locality ?? ""
+            
+            return LocationEntity(
+                cityName: cityName,
+                townName: townName
+            )
+        } catch {
+            if error is GeocoderError {
+                throw error
+            } else {
+                throw GeocoderError.reverseGeocodingFailed(error.localizedDescription)
             }
         }
     }
