@@ -17,7 +17,7 @@ enum UserEndPoint: Router {
     case appleLogin(idToken: String, nickName: String)
     case profile(accessToken: String)
     case deviceToken(deviceToken: String, accessToken: String)
-    case refreshToken(refreshToken: String)
+    case refreshToken(accessToken: String, refreshToken: String)
 }
 
 extension UserEndPoint {
@@ -34,21 +34,21 @@ extension UserEndPoint {
     var path: String {
         switch self {
         case .validation:
-            return "/v1/users/validation/email"
+            return "/users/validation/email"
         case .join:
-            return "/v1/users/join"
+            return "/users/join"
         case .emailLogin:
-            return "/v1/users/login"
+            return "/users/login"
         case .kakaoLogin:
-            return "/v1/users/login/kakao"
+            return "/users/login/kakao"
         case .appleLogin:
-            return "/v1/users/login/apple"
+            return "/users/login/apple"
         case .profile:
-            return "/v1/users/me/profile"
+            return "/users/me/profile"
         case .deviceToken:
-            return "/v1/users/deviceToken"
+            return "/users/deviceToken"
         case .refreshToken:
-            return "v1/auth/refresh"
+            return "/auth/refresh"
         }
     }
     
@@ -80,8 +80,9 @@ extension UserEndPoint {
             "SeSACKey": Secret.baseURLKey
         ]
         
-        if case let .refreshToken(refreshToken) = self {
-            headers.add(name: "Authorization", value: refreshToken)
+        if case let .refreshToken(accessToken, refreshToken) = self {
+            headers.add(name: "Authorization", value: accessToken)
+            headers.add(name: "RefreshToken", value: refreshToken)
         }
 
         return headers
