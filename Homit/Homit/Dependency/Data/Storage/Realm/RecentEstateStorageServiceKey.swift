@@ -11,11 +11,7 @@ import ComposableArchitecture
 
 private enum RecentEstateStorageServiceKey: DependencyKey {
     static var liveValue: RecentEstateStorageService {
-        do {
-            return try DefaultRecentEstateStorageService()
-        } catch {
-            fatalError("Failed to initialize RecentEstateStorageService: \(error)")
-        }
+        DefaultRecentEstateStorageService()
     }
 }
 
