@@ -16,12 +16,15 @@ struct RootView: View {
     
     var body: some View {
         WithPerceptionTracking {
-            if let tabBarStore = store.scope(state: \.tabBar, action: \.tabBar) {
-                TabBarView(store: tabBarStore)
-            } else if let loginStore = store.scope(state: \.login, action: \.login) {
-                LoginView(store: loginStore)
-            } else {
+            switch store.currentScreen {
+            case .splash:
                 SplashView(store: store.scope(state: \.splash, action: \.splash))
+            case .login:
+                if let loginStore = store.scope(state: \.login, action: \.login) {
+                    LoginView(store: loginStore)
+                }
+            case .tabBar:
+                TabBarView(store: store.scope(state: \.tabBar, action: \.tabBar))
             }
         }
         .onAppear {
