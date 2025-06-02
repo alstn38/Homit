@@ -29,11 +29,11 @@ extension EstateEndPoint {
     var path: String {
         switch self {
         case .todayEstate:
-            return "/v1/estates/today-estates"
+            return "/estates/today-estates"
         case .hotEstate:
-            return "/v1/estates/hot-estates"
+            return "/estates/hot-estates"
         case .todayTopic:
-            return "/v1/topics/today-topics"
+            return "/estates/today-topic"
         }
     }
     
