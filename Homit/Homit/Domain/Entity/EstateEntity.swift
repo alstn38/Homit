@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct EstateEntity {
+struct EstateEntity: Equatable {
     let id: String                /// 매물의 고유 ID
     let category: String          /// 카테고리 (예: 아파트)
     let title: String             /// 제목
@@ -23,7 +23,7 @@ struct EstateEntity {
     let isRecommended: Bool       /// 추천 매물 여부
 }
 
-struct LocationEntity {
+struct LocationEntity: Equatable {
     let cityName: String          /// 도시 이름 (예: 서울특별시)
     let townName: String          /// 읍면동 이름 (예: 반포동)
 }
