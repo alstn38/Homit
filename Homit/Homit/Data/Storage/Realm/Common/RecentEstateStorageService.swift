@@ -18,14 +18,11 @@ protocol RecentEstateStorageService {
 
 final class DefaultRecentEstateStorageService: RecentEstateStorageService {
     
-    private let realm: Realm
     private let maxEstateCount = 50 /// 최대 저장할 최근 본 매물 개수
     
-    init() throws {
-        self.realm = try Realm()
-    }
-    
     func saveRecentEstate(_ estate: EstateEntity) throws {
+        let realm = try! Realm()
+        
         do {
             try realm.write {
                 if let existingEstate = realm.object(ofType: RecentEstateObject.self, forPrimaryKey: estate.id) {
@@ -46,6 +43,8 @@ final class DefaultRecentEstateStorageService: RecentEstateStorageService {
     }
     
     func fetchRecentEstates(limit: Int = 20) -> [EstateEntity] {
+        let realm = try! Realm()
+        
         let results = realm.objects(RecentEstateObject.self)
             .sorted(byKeyPath: "viewedDate", ascending: false)
             .prefix(limit)
@@ -54,6 +53,8 @@ final class DefaultRecentEstateStorageService: RecentEstateStorageService {
     }
     
     func deleteRecentEstate(estateID: String) throws {
+        let realm = try! Realm()
+        
         guard let object = realm.object(
             ofType: RecentEstateObject.self,
             forPrimaryKey: estateID
@@ -71,6 +72,8 @@ final class DefaultRecentEstateStorageService: RecentEstateStorageService {
     }
     
     func clearAllRecentEstates() throws {
+        let realm = try! Realm()
+        
         let allEstates = realm.objects(RecentEstateObject.self)
         
         do {
@@ -83,6 +86,8 @@ final class DefaultRecentEstateStorageService: RecentEstateStorageService {
     }
     
     private func cleanupOldEstatesIfNeeded() {
+        let realm = try! Realm()
+        
         let allEstates = realm.objects(RecentEstateObject.self)
             .sorted(byKeyPath: "viewedDate", ascending: false)
         
